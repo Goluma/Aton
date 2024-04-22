@@ -1,6 +1,7 @@
 package com.aton;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -75,50 +76,23 @@ public class Service {
             return;
         }
 
-        addObjectIntoLongHashMap(newTestDto, oldTestDto);
-        addObjectIntoDoubleHashMap(newTestDto, oldTestDto);
-        addObjectIntoStringHashMap(newTestDto, oldTestDto);
+        putObjectIntoHashMap(newTestDto, oldTestDto, mapForLongKey, newTestDto.getAccount(), oldTestDto.getAccount());
+        putObjectIntoHashMap(newTestDto, oldTestDto, mapForDoubleKey, newTestDto.getValue(), oldTestDto.getValue());
+        putObjectIntoHashMap(newTestDto, oldTestDto, mapForStringKey, newTestDto.getName(), oldTestDto.getName());
     }
 
-    private void addObjectIntoLongHashMap(TestDto newTestDto, TestDto oldTestDto){
-        if (newTestDto.getAccount().equals(oldTestDto.getAccount())){
-            mapForLongKey.get(newTestDto.getAccount()).remove(oldTestDto);
-            mapForLongKey.get(newTestDto.getAccount()).add(newTestDto);
+    private <T, K, V extends Map<B, Set<T>>, B, C> void putObjectIntoHashMap(T newTestDto, K oldTestDto, V map,
+                                                                  B newKeyField, C oldKeyField){
+        if (newKeyField.equals(oldKeyField)){
+            map.get(newKeyField).remove(oldTestDto);
+            map.get(newKeyField).add(newTestDto);
         } else {
-            mapForLongKey.get(oldTestDto.getAccount()).remove(oldTestDto);
-            if (mapForLongKey.get(oldTestDto.getAccount()).size() == 0){
-                mapForLongKey.remove(oldTestDto.getAccount());
+            map.get(oldKeyField).remove(oldTestDto);
+            if (map.get(oldKeyField).size() == 0){
+                map.remove(oldKeyField);
             }
-            mapForLongKey.put(newTestDto.getAccount(), new HashSet<>());
-            mapForLongKey.get(newTestDto.getAccount()).add(newTestDto);
-        }
-    }
-
-    private void addObjectIntoStringHashMap(TestDto newTestDto, TestDto oldTestDto){
-        if (newTestDto.getName().equals(oldTestDto.getName())){
-            mapForStringKey.get(newTestDto.getName()).remove(oldTestDto);
-            mapForStringKey.get(newTestDto.getName()).add(newTestDto);
-        } else {
-            mapForStringKey.get(oldTestDto.getName()).remove(oldTestDto);
-            if (mapForStringKey.get(oldTestDto.getName()).size() == 0){
-                mapForStringKey.remove(oldTestDto.getName());
-            }
-            mapForStringKey.put(newTestDto.getName(), new HashSet<>());
-            mapForStringKey.get(newTestDto.getName()).add(newTestDto);
-        }
-    }
-
-    private void addObjectIntoDoubleHashMap(TestDto newTestDto, TestDto oldTestDto){
-        if (newTestDto.getValue().equals(oldTestDto.getValue())){
-            mapForDoubleKey.get(newTestDto.getValue()).remove(oldTestDto);
-            mapForDoubleKey.get(newTestDto.getValue()).add(newTestDto);
-        } else {
-            mapForDoubleKey.get(oldTestDto.getValue()).remove(oldTestDto);
-            if (mapForDoubleKey.get(oldTestDto.getValue()).size() == 0){
-                mapForDoubleKey.remove(oldTestDto.getValue());
-            }
-            mapForDoubleKey.put(newTestDto.getValue(), new HashSet<>());
-            mapForDoubleKey.get(newTestDto.getValue()).add(newTestDto);
+            map.put(newKeyField, new HashSet<>());
+            map.get(newKeyField).add(newTestDto);
         }
     }
 }
