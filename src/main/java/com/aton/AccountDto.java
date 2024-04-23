@@ -2,7 +2,7 @@ package com.aton;
 
 import java.util.Objects;
 
-public class PersonDto {
+public class AccountDto {
 
     private Long account;
 
@@ -10,7 +10,7 @@ public class PersonDto {
 
     private Double value;
 
-    private PersonDto(Long account, String name, Double value){
+    private AccountDto(Long account, String name, Double value){
         this.account = account;
         this.name = name;
         this.value = value;
@@ -43,11 +43,11 @@ public class PersonDto {
             return this;
         }
 
-        public PersonDto build(){
+        public AccountDto build(){
             if (name == null || value == null || account == null){
                 throw new IllegalArgumentException("Fields of object can't be null");
             }
-            return new PersonDto(account, name, value);
+            return new AccountDto(account, name, value);
         }
     }
 
@@ -76,8 +76,8 @@ public class PersonDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonDto personDto = (PersonDto) o;
-        return Objects.equals(account, personDto.account) && Objects.equals(name, personDto.name) && Objects.equals(value, personDto.value);
+        AccountDto accountDto = (AccountDto) o;
+        return Objects.equals(account, accountDto.account) && Objects.equals(name, accountDto.name) && Objects.equals(value, accountDto.value);
     }
 
     @Override

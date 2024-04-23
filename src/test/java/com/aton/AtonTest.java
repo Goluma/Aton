@@ -6,38 +6,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AtonTest {
 
-    PersonService personService = new PersonService();
+    AccountIndex accountIndex = new AccountIndex();
 
     @Test
-    public void testThatObjectCanBeAddedAndFound(){
-        PersonDto personDto = TestDataUtil.createA();
-        personService.addValue(personDto);
-        PersonDto personDto1 = personService.getObjectByAnyField(personDto.getAccount());
+    public void testThatAccountCanBeAddedAndFoundByAccount(){
+        AccountDto accountDto = TestDataUtil.createA();
+        accountIndex.add(accountDto);
+        AccountDto accountDto1 = accountIndex.getByAccount(accountDto.getAccount());
 
-        assertEquals(personDto1, personDto);
+        assertEquals(accountDto1, accountDto);
     }
 
     @Test
-    public void testThatObjectCanBeRemoved(){
-        PersonDto personDto = TestDataUtil.createA();
-        personService.addValue(personDto);
-        personService.removeValue(personDto);
+    public void testThatAccountCanBeFoundByName(){
+        AccountDto accountDto = TestDataUtil.createA();
+        accountIndex.add(accountDto);
+        AccountDto accountDto1 = accountIndex.getByName(accountDto.getName());
 
-        PersonDto obj = personService.getObjectByAnyField(personDto.getAccount());
+        assertEquals(accountDto1, accountDto);
+    }
+
+    @Test
+    public void testThatAccountCanBeFoundByValue(){
+        AccountDto accountDto = TestDataUtil.createA();
+        accountIndex.add(accountDto);
+        AccountDto accountDto1 = accountIndex.getByValue(accountDto.getValue());
+
+        assertEquals(accountDto1, accountDto);
+    }
+
+    @Test
+    public void testThatAccountCanBeRemoved(){
+        AccountDto accountDto = TestDataUtil.createA();
+        accountIndex.add(accountDto);
+        accountIndex.remove(accountDto);
+
+        AccountDto obj = accountIndex.getByAccount(accountDto.getAccount());
         assertEquals(obj, null);
     }
 
     @Test
-    public void testThatObjectCanBeUpdated(){
-        PersonDto oldPersonDto = TestDataUtil.createB();
-        personService.addValue(oldPersonDto);
+    public void testThatAccountCanBeUpdated(){
+        AccountDto oldAccountDto = TestDataUtil.createB();
+        accountIndex.add(oldAccountDto);
 
-        PersonDto newPersonDto = TestDataUtil.createF();
-        personService.update(newPersonDto, oldPersonDto);
+        AccountDto newAccountDto = TestDataUtil.createF();
+        accountIndex.update(newAccountDto, oldAccountDto);
 
-        PersonDto personDto = personService.getObjectByAnyField(2L);
+        AccountDto accountDto = accountIndex.getByAccount(2L);
 
-        assertEquals(personDto, newPersonDto);
+        assertEquals(accountDto, newAccountDto);
     }
 
 }
