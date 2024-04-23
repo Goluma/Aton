@@ -19,7 +19,7 @@ public class Service {
         mapForLongKey = new ConcurrentHashMap<>();
     }
 
-    public void addValue(TestDto testDto){
+    public int addValue(TestDto testDto){
         if (testDto == null) {
             throw new RuntimeException("Нельзя передавать нулевые объекты");
         } else if (!mapForLongKey.containsKey(testDto.getAccount())){
@@ -31,6 +31,8 @@ public class Service {
         mapForStringKey.get(testDto.getName()).add(testDto);
         mapForDoubleKey.get(testDto.getValue()).add(testDto);
         mapForLongKey.get(testDto.getAccount()).add(testDto);
+
+        return mapForLongKey.get(testDto.getAccount()).size();
     }
 
     public void removeValue(TestDto testDto){
