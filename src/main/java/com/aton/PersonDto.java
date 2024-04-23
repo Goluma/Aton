@@ -45,7 +45,7 @@ public class PersonDto {
 
         public PersonDto build(){
             if (name == null || value == null || account == null){
-                throw new RuntimeException("Fields of object can't be null");
+                throw new IllegalArgumentException("Fields of object can't be null");
             }
             return new PersonDto(account, name, value);
         }

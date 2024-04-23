@@ -6,18 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AtonTest {
 
+    PersonService personService = new PersonService();
+
     @Test
     public void testThatObjectCanBeAddedAndFound(){
-        PersonService personService = new PersonService();
         PersonDto personDto = TestDataUtil.createA();
         personService.addValue(personDto);
         PersonDto personDto1 = personService.getObjectByAnyField(personDto.getAccount());
+
         assertEquals(personDto1, personDto);
     }
 
     @Test
     public void testThatObjectCanBeRemoved(){
-        PersonService personService = new PersonService();
         PersonDto personDto = TestDataUtil.createA();
         personService.addValue(personDto);
         personService.removeValue(personDto);
@@ -28,7 +29,15 @@ public class AtonTest {
 
     @Test
     public void testThatObjectCanBeUpdated(){
+        PersonDto oldPersonDto = TestDataUtil.createB();
+        personService.addValue(oldPersonDto);
 
+        PersonDto newPersonDto = TestDataUtil.createF();
+        personService.update(newPersonDto, oldPersonDto);
+
+        PersonDto personDto = personService.getObjectByAnyField(2L);
+
+        assertEquals(personDto, newPersonDto);
     }
 
 }

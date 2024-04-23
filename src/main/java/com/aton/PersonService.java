@@ -22,7 +22,7 @@ public class PersonService {
 
     public PersonDto addValue(PersonDto personDto){
         if (personDto == null) {
-            throw new RuntimeException("Нельзя передавать нулевые объекты");
+            throw new IllegalArgumentException("Cannot pass null objects");
         } else if (!mapForLongKey.containsKey(personDto.getAccount())){
             mapForStringKey.put(personDto.getName(), new HashSet<>());
             mapForLongKey.put(personDto.getAccount(), new HashSet<>());
@@ -38,9 +38,9 @@ public class PersonService {
 
     public PersonDto removeValue(PersonDto personDto){
         if (personDto == null) {
-            throw new IllegalArgumentException("Нельзя передавать нулевые объекты");
+            throw new IllegalArgumentException("Cannot pass null objects");
         } else if (!mapForLongKey.containsKey(personDto.getAccount())){
-            throw new NoSuchElementException("Такого объекта нет в имеющихся");
+            throw new NoSuchElementException("There is no such object in the existing");
         }
 
         if (mapForLongKey.get(personDto.getAccount()).size() == 1){
@@ -66,7 +66,7 @@ public class PersonService {
 
     public <T> PersonDto getObjectByAnyField(T field){
         if (field == null){
-            throw new IllegalArgumentException("Поле не должно быть пустым");
+            throw new IllegalArgumentException("The field must not be empty");
         }
         Set<PersonDto> setOfObjects = null;
 
@@ -79,7 +79,7 @@ public class PersonService {
         } else if (classOfField == Double.class){
             setOfObjects = mapForDoubleKey.getOrDefault(field, null);
         } else {
-            throw new IllegalArgumentException("Передано поле, не соответствует ни одному из полей объекта записи");
+            throw new IllegalArgumentException("The field passed does not match any of the fields in the record object");
         }
 
         if (setOfObjects == null){
@@ -90,9 +90,9 @@ public class PersonService {
 
     public PersonDto update(PersonDto newPersonDto, PersonDto oldPersonDto){
         if (newPersonDto == null || oldPersonDto == null){
-            throw new IllegalArgumentException("Нельзя передавать нулевые объекты");
+            throw new IllegalArgumentException("Cannot pass null objects");
         } else if (!mapForLongKey.containsKey(oldPersonDto.getAccount())){
-            throw new NoSuchElementException("Объект, который вы хотите изменить, не существует");
+            throw new NoSuchElementException("The object you want to change does not exist");
         } else if (newPersonDto.equals(oldPersonDto)) {
             return newPersonDto;
         }
