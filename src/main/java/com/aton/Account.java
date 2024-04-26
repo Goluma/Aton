@@ -1,6 +1,6 @@
 package com.aton;
 
-public class Aton {
+public class Account {
 
     public static void main(String[] args) {
     }

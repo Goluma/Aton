@@ -64,7 +64,7 @@ public class AccountIndex {
 
     }
 
-    public AccountDto getByName(String name){
+    public Set<AccountDto> getByName(String name){
         if (name == null){
             throw new IllegalArgumentException("The field must not be empty");
         }
@@ -72,10 +72,10 @@ public class AccountIndex {
         if (setOfObjects == null){
             return null;
         }
-        return setOfObjects.iterator().next();
+        return setOfObjects;
     }
 
-    public AccountDto getByAccount(Long account){
+    public Set<AccountDto> getByAccount(Long account){
         if (account == null){
             throw new IllegalArgumentException("The field must not be empty");
         }
@@ -83,10 +83,10 @@ public class AccountIndex {
         if (setOfObjects == null){
             return null;
         }
-        return setOfObjects.iterator().next();
+        return setOfObjects;
     }
 
-    public AccountDto getByValue(Double value){
+    public Set<AccountDto> getByValue(Double value){
         if (value == null){
             throw new IllegalArgumentException("The field must not be empty");
         }
@@ -94,7 +94,7 @@ public class AccountIndex {
         if (setOfObjects == null){
             return null;
         }
-        return setOfObjects.iterator().next();
+        return setOfObjects;
     }
 
     public AccountDto update(AccountDto newAccountDto, AccountDto oldAccountDto){
@@ -106,14 +106,14 @@ public class AccountIndex {
             return newAccountDto;
         }
 
-        putObjectIntoHashMap(newAccountDto, oldAccountDto, accountMap, newAccountDto.getAccount(), oldAccountDto.getAccount());
-        putObjectIntoHashMap(newAccountDto, oldAccountDto, valueMap, newAccountDto.getValue(), oldAccountDto.getValue());
-        putObjectIntoHashMap(newAccountDto, oldAccountDto, nameMap, newAccountDto.getName(), oldAccountDto.getName());
+        updateObjectInIndex(newAccountDto, oldAccountDto, accountMap, newAccountDto.getAccount(), oldAccountDto.getAccount());
+        updateObjectInIndex(newAccountDto, oldAccountDto, valueMap, newAccountDto.getValue(), oldAccountDto.getValue());
+        updateObjectInIndex(newAccountDto, oldAccountDto, nameMap, newAccountDto.getName(), oldAccountDto.getName());
 
         return newAccountDto;
     }
 
-    private <T, K, V extends Map<B, Set<T>>, B, C> void putObjectIntoHashMap(T newTestDto, K oldTestDto, V map,
+    private <T, K, V extends Map<B, Set<T>>, B, C> void updateObjectInIndex(T newTestDto, K oldTestDto, V map,
                                                                   B newKeyField, C oldKeyField){
         if (newKeyField.equals(oldKeyField)){
             map.get(newKeyField).remove(oldTestDto);
